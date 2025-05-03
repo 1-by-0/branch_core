@@ -505,4 +505,66 @@ defmodule BranchCore.AccountsTest do
       refute inspect(%User{password: "123456"}) =~ "password: \"123456\""
     end
   end
+
+  describe "identities" do
+    alias BranchCore.Accounts.Identity
+
+    import BranchCore.AccountsFixtures
+
+    @invalid_attrs %{provider: nil, provider_token: nil, provider_email: nil, provider_id: nil, provider_meta: nil}
+
+    test "list_identities/0 returns all identities" do
+      identity = identity_fixture()
+      assert Accounts.list_identities() == [identity]
+    end
+
+    test "get_identity!/1 returns the identity with given id" do
+      identity = identity_fixture()
+      assert Accounts.get_identity!(identity.id) == identity
+    end
+
+    test "create_identity/1 with valid data creates a identity" do
+      valid_attrs = %{provider: "some provider", provider_token: "some provider_token", provider_email: "some provider_email", provider_id: "some provider_id", provider_meta: %{}}
+
+      assert {:ok, %Identity{} = identity} = Accounts.create_identity(valid_attrs)
+      assert identity.provider == "some provider"
+      assert identity.provider_token == "some provider_token"
+      assert identity.provider_email == "some provider_email"
+      assert identity.provider_id == "some provider_id"
+      assert identity.provider_meta == %{}
+    end
+
+    test "create_identity/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_identity(@invalid_attrs)
+    end
+
+    test "update_identity/2 with valid data updates the identity" do
+      identity = identity_fixture()
+      update_attrs = %{provider: "some updated provider", provider_token: "some updated provider_token", provider_email: "some updated provider_email", provider_id: "some updated provider_id", provider_meta: %{}}
+
+      assert {:ok, %Identity{} = identity} = Accounts.update_identity(identity, update_attrs)
+      assert identity.provider == "some updated provider"
+      assert identity.provider_token == "some updated provider_token"
+      assert identity.provider_email == "some updated provider_email"
+      assert identity.provider_id == "some updated provider_id"
+      assert identity.provider_meta == %{}
+    end
+
+    test "update_identity/2 with invalid data returns error changeset" do
+      identity = identity_fixture()
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_identity(identity, @invalid_attrs)
+      assert identity == Accounts.get_identity!(identity.id)
+    end
+
+    test "delete_identity/1 deletes the identity" do
+      identity = identity_fixture()
+      assert {:ok, %Identity{}} = Accounts.delete_identity(identity)
+      assert_raise Ecto.NoResultsError, fn -> Accounts.get_identity!(identity.id) end
+    end
+
+    test "change_identity/1 returns a identity changeset" do
+      identity = identity_fixture()
+      assert %Ecto.Changeset{} = Accounts.change_identity(identity)
+    end
+  end
 end

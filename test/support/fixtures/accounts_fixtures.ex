@@ -28,4 +28,22 @@ defmodule BranchCore.AccountsFixtures do
     [_, token | _] = String.split(captured_email.text_body, "[TOKEN]")
     token
   end
+
+  @doc """
+  Generate a identity.
+  """
+  def identity_fixture(attrs \\ %{}) do
+    {:ok, identity} =
+      attrs
+      |> Enum.into(%{
+        provider: "some provider",
+        provider_email: "some provider_email",
+        provider_id: "some provider_id",
+        provider_meta: %{},
+        provider_token: "some provider_token"
+      })
+      |> BranchCore.Accounts.create_identity()
+
+    identity
+  end
 end
