@@ -511,7 +511,13 @@ defmodule BranchCore.AccountsTest do
 
     import BranchCore.AccountsFixtures
 
-    @invalid_attrs %{provider: nil, provider_token: nil, provider_email: nil, provider_id: nil, provider_meta: nil}
+    @invalid_attrs %{
+      provider: nil,
+      provider_token: nil,
+      provider_email: nil,
+      provider_id: nil,
+      provider_meta: nil
+    }
 
     test "list_identities/0 returns all identities" do
       identity = identity_fixture()
@@ -524,7 +530,13 @@ defmodule BranchCore.AccountsTest do
     end
 
     test "create_identity/1 with valid data creates a identity" do
-      valid_attrs = %{provider: "some provider", provider_token: "some provider_token", provider_email: "some provider_email", provider_id: "some provider_id", provider_meta: %{}}
+      valid_attrs = %{
+        provider: "some provider",
+        provider_token: "some provider_token",
+        provider_email: "some provider_email",
+        provider_id: "some provider_id",
+        provider_meta: %{}
+      }
 
       assert {:ok, %Identity{} = identity} = Accounts.create_identity(valid_attrs)
       assert identity.provider == "some provider"
@@ -540,7 +552,14 @@ defmodule BranchCore.AccountsTest do
 
     test "update_identity/2 with valid data updates the identity" do
       identity = identity_fixture()
-      update_attrs = %{provider: "some updated provider", provider_token: "some updated provider_token", provider_email: "some updated provider_email", provider_id: "some updated provider_id", provider_meta: %{}}
+
+      update_attrs = %{
+        provider: "some updated provider",
+        provider_token: "some updated provider_token",
+        provider_email: "some updated provider_email",
+        provider_id: "some updated provider_id",
+        provider_meta: %{}
+      }
 
       assert {:ok, %Identity{} = identity} = Accounts.update_identity(identity, update_attrs)
       assert identity.provider == "some updated provider"

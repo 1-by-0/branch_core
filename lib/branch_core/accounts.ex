@@ -362,8 +362,9 @@ defmodule BranchCore.Accounts do
       [%Identity{}, ...]
 
   """
-  def list_identities do
-    Repo.all(Identity)
+  def list_identities(user_id) do
+    from(i in Identity, where: i.user_id == ^user_id)
+    |> Repo.all()
   end
 
   @doc """
