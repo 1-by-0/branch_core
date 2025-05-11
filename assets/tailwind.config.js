@@ -14,8 +14,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: "#FD4F00",
-      }
+        primary: '#2F855A',  // Green 600
+        light: '#F0FFF4',    // Light green background
+        dark: '#1A202C',     // Neutral text
+        accent: '#38B2AC',   // Teal for buttons/links
+        danger: '#E53E3E'
+      },
+      fontFamily: {
+        sans: ['Nunito', 'sans-serif'],
+      },
     },
   },
   plugins: [
