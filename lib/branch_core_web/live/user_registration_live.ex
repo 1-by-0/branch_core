@@ -8,7 +8,7 @@ defmodule BranchCoreWeb.UserRegistrationLive do
     ~H"""
     <div class="mx-auto max-w-sm">
       <.header class="text-center">
-        Register for an account
+        Register yore BranchOut Account
         <:subtitle>
           Already registered?
           <.link navigate={~p"/users/log_in"} class="font-semibold text-brand hover:underline">
@@ -36,7 +36,7 @@ defmodule BranchCoreWeb.UserRegistrationLive do
         <.input field={@form[:password]} type="password" label="Password" required />
 
         <:actions>
-          <.button phx-disable-with="Creating account..." class="w-full">Create an account</.button>
+          <.button phx-disable-with="Creating account..." class="bg-green w-full text-white font-semibold">Create an account</.button>
         </:actions>
       </.simple_form>
     </div>

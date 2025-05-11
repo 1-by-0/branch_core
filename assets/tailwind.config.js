@@ -14,6 +14,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        brand: '#2F855A',
+        hover: '#19573C',
         primary: '#2F855A',  // Green 600
         light: '#F0FFF4',    // Light green background
         dark: '#1A202C',     // Neutral text
