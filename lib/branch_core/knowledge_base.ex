@@ -38,6 +38,22 @@ defmodule BranchCore.KnowledgeBase do
   def get_skill!(id), do: Repo.get!(Skill, id)
 
   @doc """
+  Gets a single skill by name.
+
+  Returns nil if the Skill does not exist.
+
+  ## Examples
+
+      iex> get_skill_by_name(skill_name)
+      %Skill{}
+
+      iex> get_skill_bu_name(skill_name)
+      nil
+
+  """
+  def get_skill_by_name(name), do: Repo.get_by(Skill, name: name)
+
+  @doc """
   Creates a skill.
 
   ## Examples
@@ -53,6 +69,13 @@ defmodule BranchCore.KnowledgeBase do
     %Skill{}
     |> Skill.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def create_skill_if_not_found(attrs) do
+    case get_skill_by_name(attrs["name"]) do
+      nil -> create_skill(attrs)
+      skill -> {:ok, skill}
+    end
   end
 
   @doc """

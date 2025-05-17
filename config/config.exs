@@ -31,6 +31,9 @@ config :branch_core, BranchCoreWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :branch_core, BranchCore.Mailer, adapter: Swoosh.Adapters.Local
 
+#Configures interval time for skill sync
+config :branch_core, :skill_sync_interval, :timer.hours(24) * 60
+
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
