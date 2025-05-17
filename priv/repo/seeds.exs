@@ -9,3 +9,6 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+IO.inspect("Seeding INFO")
+BranchCore.Synchronizers.SkillSynchronizer.sync_skills()
+IO.inspect("Seeding Done")
