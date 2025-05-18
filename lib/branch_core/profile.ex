@@ -8,17 +8,24 @@ defmodule BranchCore.Profile do
 
   alias BranchCore.Profile.UserSkill
 
+
+  def profile_completed(user) do
+    from(us in UserSkill, where: us.user_id == ^user.id)
+    |> Repo.exists?()
+  end
+
   @doc """
-  Returns the list of user_skills.
+  Returns the list of user_skills for a user_id.
 
   ## Examples
 
-      iex> list_user_skills()
+      iex> list_user_skills(user_id)
       [%UserSkill{}, ...]
 
   """
-  def list_user_skills do
-    Repo.all(UserSkill)
+  def list_user_skills(user_id) do
+    from(us in UserSkill, where: us.user_id == ^user_id)
+    |> Repo.all()
   end
 
   @doc """
