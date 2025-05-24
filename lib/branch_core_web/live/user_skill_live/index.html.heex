@@ -1,22 +1,75 @@
 <div class="min-h-screen bg-white text-dark font-sans p-8">
-  <h1 class="text-3xl font-bold mb-6">Nice to see you again, <span class="text-primary"><%= @current_user.name %></span> 👋</h1>
+  <%= if !@profile_completed do %>
+    <h1 class="text-3xl font-bold mb-6">
+      Nice to see you again, <span class="text-primary">{@current_user.name}</span> 👋
+    </h1>
 
-  <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 shadow-md max-w-2xl mx-auto">
-    <h2 class="text-2xl font-semibold text-primary mb-2">Let’s get your skills set up</h2>
-    <p class="text-gray-700 mb-4">
-      To recommend projects tailored to your experience, we need to know what technologies you're familiar with.
-      This will help us connect you with issues and repositories that align with your interests and expertise.
-    </p>
-    <ul class="list-disc list-inside text-gray-700 mb-4">
-      <li>List programming languages, frameworks, or tools you’re comfortable with</li>
-      <li>You can always update or add more skills later</li>
-      <li>Your skills are only used for improving match accuracy</li>
-    </ul>
-    <button
-      phx-click="open_skill_form"
-      class="bg-primary text-white px-6 py-2 rounded-lg shadow hover:bg-green-700 transition"
-    >
-      🛠️ Add Your Skills
-    </button>
-  </div>
+    <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 shadow-md max-w-2xl mx-auto">
+      <h2 class="text-2xl font-semibold text-primary mb-2">Let’s get your skills set up</h2>
+      <p class="text-gray-700 mb-4">
+        To recommend projects tailored to your experience, we need to know what technologies you're familiar with.
+        This will help us connect you with issues and repositories that align with your interests and expertise.
+      </p>
+      <ul class="list-disc list-inside text-gray-700 mb-4">
+        <li>List programming languages, frameworks, or tools you’re comfortable with</li>
+        <li>You can always update or add more skills later</li>
+        <li>Your skills are only used for improving match accuracy</li>
+      </ul>
+      <.link patch={~p"/profile/skills/new"}>
+        <button class="bg-primary text-white px-6 py-2 rounded-lg shadow hover:bg-green-700 transition">
+          🛠️ Add Your Skills
+        </button>
+      </.link>
+    </div>
+  <% else %>
+    <.header>
+      <%!-- Your Skills --%>
+    <h2 class="text-2xl font-semibold mb-4">Your Skills</h2>
+      <:actions>
+        <.link patch={~p"/profile/skills/new"}>
+          <.button>Add Skill</.button>
+        </.link>
+      </:actions>
+    </.header>
+
+    <.table id="user-skills" rows={@streams.user_skills}>
+      <:col :let={{_id, user_skill}} label="Skill">
+        <span class="font-medium">
+          <%= user_skill.skill.name %>
+        </span>
+      </:col>
+
+      <:col :let={{_id, user_skill}} label="Level">
+        <span class="inline-block rounded-full bg-primary text-white px-3 py-1 text-xs font-semibold">
+          <%= user_skill.level %>
+        </span>
+      </:col>
+
+      <:action :let={{_id, user_skill}}>
+        <.link
+          patch={~p"/profile/skills/#{user_skill}/edit"}
+          class="text-sm hover:text-primary hover:underline"
+        >
+          Edit
+        </.link>
+      </:action>
+    </.table>
+  <% end %>
 </div>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="user-skill-modal"
+  show
+  on_cancel={JS.patch(~p"/profile/skills")}
+>
+  <.live_component
+    module={BranchCoreWeb.UserSkillLive.FormComponent}
+    id={@user_skill.id || :new}
+    title={@page_title}
+    action={@live_action}
+    current_user={@current_user}
+    user_skill={@user_skill}
+    patch={~p"/profile/skills"}
+  />
+</.modal>

@@ -7,6 +7,8 @@ defmodule BranchCore.KnowledgeBase.Skill do
     field :type, :string
     field :color, :string
 
+    has_many :user_skills, BranchCore.Profile.UserSkill
+
     timestamps(type: :utc_datetime)
   end
 

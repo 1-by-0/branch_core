@@ -20,12 +20,14 @@ defmodule BranchCore.SyncRunners.SkillSyncRunnner do
     new_state =
       case BranchCore.Synchronizers.SkillSynchronizer.sync_skills() do
         {:ok, _msg} ->
-          %{state | last_run_succeed: true }
+          %{state | last_run_succeed: true}
+
         {:error, _msg} ->
           %{state | last_run_succeed: false, error_count: state.error_count + 1}
       end
-      schedule_skill_sync()
-      {:noreply, new_state}
+
+    schedule_skill_sync()
+    {:noreply, new_state}
   end
 
   defp schedule_skill_sync() do

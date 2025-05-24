@@ -35,7 +35,12 @@ defmodule BranchCore.KnowledgeBaseTest do
 
     test "update_skill/2 with valid data updates the skill" do
       skill = skill_fixture()
-      update_attrs = %{name: "some updated name", type: "some updated type", color: "some updated color"}
+
+      update_attrs = %{
+        name: "some updated name",
+        type: "some updated type",
+        color: "some updated color"
+      }
 
       assert {:ok, %Skill{} = skill} = KnowledgeBase.update_skill(skill, update_attrs)
       assert skill.name == "some updated name"
