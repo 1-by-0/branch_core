@@ -35,7 +35,9 @@ defmodule BranchCore.ProfileTest do
       user_skill = user_skill_fixture()
       update_attrs = %{level: "some updated level"}
 
-      assert {:ok, %UserSkill{} = user_skill} = Profile.update_user_skill(user_skill, update_attrs)
+      assert {:ok, %UserSkill{} = user_skill} =
+               Profile.update_user_skill(user_skill, update_attrs)
+
       assert user_skill.level == "some updated level"
     end
 

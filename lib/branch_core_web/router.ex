@@ -67,7 +67,9 @@ defmodule BranchCoreWeb.Router do
     live_session :require_authenticated_user,
       on_mount: [{BranchCoreWeb.UserAuth, :ensure_authenticated}] do
       live "/login_dispatcher", LoginDispatcher.Index, :index
-      live "/profiles/skills/edit", UserSkillLive.Index, :index
+      live "/profile/skills/", UserSkillLive.Index, :index
+      live "/profile/skills/new", UserSkillLive.Index, :new
+      live "/profile/skills/:id/edit", UserSkillLive.Index, :edit
       live "/dashboard", DashboardLive.Index, :index
 
       live "/users/settings", UserSettingsLive, :edit

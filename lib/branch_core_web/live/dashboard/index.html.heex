@@ -1,5 +1,7 @@
 <div class="min-h-screen bg-white text-dark font-sans p-8">
-  <h1 class="text-3xl font-bold mb-6">Hello <span class="text-primary"><%= @current_user.name %></span> 👋</h1>
+  <h1 class="text-3xl font-bold mb-6">
+    Hello <span class="text-primary">{@current_user.name}</span> 👋
+  </h1>
 
   <%= if Enum.empty?(@identities) do %>
     <!-- Redirect to identities -->
@@ -9,7 +11,10 @@
         To unlock project recommendations and track your contributions,
         connect one of your Git accounts (GitHub, GitLab, etc).
       </p>
-      <a href="/identities" class="bg-primary text-white px-6 py-2 rounded-lg shadow hover:bg-green-700 transition">
+      <a
+        href="/identities"
+        class="bg-primary text-white px-6 py-2 rounded-lg shadow hover:bg-green-700 transition"
+      >
         🔗 Manage Git Connections
       </a>
     </div>
@@ -23,7 +28,9 @@
 
       <div class="bg-white shadow-md rounded-xl p-6">
         <h2 class="text-xl font-semibold mb-2">Matched Projects</h2>
-        <p class="text-gray-600">Explore open source projects that fit your skills and interests.</p>
+        <p class="text-gray-600">
+          Explore open source projects that fit your skills and interests.
+        </p>
       </div>
     </div>
   <% end %>

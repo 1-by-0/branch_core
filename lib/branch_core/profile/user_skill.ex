@@ -4,8 +4,8 @@ defmodule BranchCore.Profile.UserSkill do
 
   schema "user_skills" do
     field :level, :string
-    field :user_id, :id
-    field :skill_id, :id
+    belongs_to :user, BranchCore.Accounts.User
+    belongs_to :skill, BranchCore.KnowledgeBase.Skill
 
     timestamps(type: :utc_datetime)
   end
@@ -13,7 +13,8 @@ defmodule BranchCore.Profile.UserSkill do
   @doc false
   def changeset(user_skill, attrs) do
     user_skill
-    |> cast(attrs, [:level])
+    |> cast(attrs, [:user_id, :skill_id, :level])
     |> validate_required([:level])
+    |> validate_inclusion(:level, ["beginner", "intermediate", "advanced"])
   end
 end

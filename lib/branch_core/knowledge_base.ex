@@ -22,6 +22,21 @@ defmodule BranchCore.KnowledgeBase do
   end
 
   @doc """
+  Returns the list of skills
+  similar to user's inputs.
+
+  ## Examples
+
+      iex> list_similar_skills(some_skill)
+      [%Skill{}, ...]
+
+  """
+  def list_similar_skills(skill) do
+    from(s in Skill, where: like(s.name, ^"%#{skill}%"))
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single skill.
 
   Raises `Ecto.NoResultsError` if the Skill does not exist.

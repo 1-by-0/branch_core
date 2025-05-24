@@ -8,7 +8,6 @@ defmodule BranchCore.Profile do
 
   alias BranchCore.Profile.UserSkill
 
-
   def profile_completed(user) do
     from(us in UserSkill, where: us.user_id == ^user.id)
     |> Repo.exists?()
@@ -26,6 +25,7 @@ defmodule BranchCore.Profile do
   def list_user_skills(user_id) do
     from(us in UserSkill, where: us.user_id == ^user_id)
     |> Repo.all()
+    |> Repo.preload(:skill)
   end
 
   @doc """
@@ -42,7 +42,7 @@ defmodule BranchCore.Profile do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user_skill!(id), do: Repo.get!(UserSkill, id)
+  def get_user_skill!(id), do: Repo.get!(UserSkill, id) |> Repo.preload(:skill)
 
   @doc """
   Creates a user_skill.

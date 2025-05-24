@@ -17,7 +17,7 @@ defmodule BranchCoreWeb.LoginDispatcher.Index do
     if Profile.profile_completed(user) do
       ~p"/dashboard"
     else
-      ~p"/profiles/skills/edit"
+      ~p"/profile/skills"
     end
   end
 end
