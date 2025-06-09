@@ -4,23 +4,44 @@
     Link your GitHub or other developer accounts to personalize your experience and let others discover your work more easily.
   </p>
 
+  <div class="flex flex-wrap gap-4 mb-6">
+    <.link
+      href={BranchCore.Accounts.Provider.oauth_authorization_url("github")}
+      class="inline-flex items-center gap-2 bg-brand hover:bg-hover text-white text-sm font-semibold px-4 py-2 rounded transition"
+    >
+      <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="w-5 h-5" />
+      Connect GitHub
+    </.link>
+    <.link
+      href="#"
+      class="inline-flex items-center gap-2 bg-brand hover:bg-hover text-white text-sm font-semibold px-4 py-2 rounded transition"
+    >
+      <img src="https://cdn.simpleicons.org/gitlab" alt="GitLab" class="w-5 h-5" />
+      Connect GitLab
+    </.link>
+    <.link
+      href="#"
+      class="inline-flex items-center gap-2 bg-brand hover:bg-hover text-white text-sm font-semibold px-4 py-2 rounded transition"
+    >
+      <img src="https://cdn.simpleicons.org/bitbucket" alt="Bitbucket" class="w-5 h-5" />
+      Connect Bitbucket
+    </.link>
+  </div>
+
   <%= if @has_identities do %>
-    <.table id="user-identities" rows={@streams.identities}>
-      <:col :let={{_id, identity}} label="Provider">
-        <span class="capitalize text-dark"><%= identity.provider %></span>
-      </:col>
-      <%!-- <:col :let={{_id, identity}} label="Username/Handle">
-        <span class="text-gray-800"><%= identity.username %></span>
-      </:col> --%>
-      <%!-- <:action :let={{_id, identity}}>
-        <.link
-          patch={~p"/identities/#{identity}/edit"}
-          class="text-sm text-accent hover:text-hover underline"
-        >
-          Edit
-        </.link>
-      </:action> --%>
-    </.table>
+    <h1 class="text-2xl font-bold text-dark mb-2">Existing Identities</h1>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <%= for {_id, identity} <- @streams.identities do %>
+        <div class="bg-white shadow-sm border border-gray-200 rounded-xl p-4 flex items-center gap-4">
+          <div class="flex-shrink-0">
+            <img src={"https://cdn.simpleicons.org/#{identity.provider}"}alt="GitHub" class="w-5 h-5" />
+          </div>
+          <div class="text-dark font-semibold capitalize"><%= identity.provider %></div>
+        </div>
+      <% end %>
+    </div>
+
   <% else %>
     <div class="bg-light border border-brand rounded-lg p-4 text-dark">
       <p class="mb-2 font-semibold">You haven't connected any identities yet.</p>
