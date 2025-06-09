@@ -60,6 +60,7 @@ defmodule BranchCore.Profile do
     %UserSkill{}
     |> UserSkill.changeset(attrs)
     |> Repo.insert()
+    |> preload_skill()
   end
 
   @doc """
@@ -108,4 +109,7 @@ defmodule BranchCore.Profile do
   def change_user_skill(%UserSkill{} = user_skill, attrs \\ %{}) do
     UserSkill.changeset(user_skill, attrs)
   end
+
+  defp preload_skill({:ok, user_skill}), do: {:ok, user_skill |> Repo.preload(:skill)}
+  defp preload_skill(result), do: result
 end

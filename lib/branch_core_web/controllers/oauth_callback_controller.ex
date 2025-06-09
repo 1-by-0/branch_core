@@ -9,11 +9,11 @@ defmodule BranchCoreWeb.OauthCallbackController do
       {:ok, _} ->
         conn
         |> put_flash(:info , "Liked #{provider} Successfully")
-        |> redirect(to: ~p"/identities")
+        |> redirect(to: ~p"/profile/identities")
       {:error, _} ->
         conn
         |> put_flash(:error , "Couldn't link Github")
-        |> redirect(to: ~p"/identities")
+        |> redirect(to: ~p"/profile/identities")
     end
   end
 end

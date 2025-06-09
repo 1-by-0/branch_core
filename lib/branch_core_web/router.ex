@@ -70,11 +70,14 @@ defmodule BranchCoreWeb.Router do
       on_mount: [{BranchCoreWeb.UserAuth, :ensure_authenticated}] do
       live "/login_dispatcher", LoginDispatcher.Index, :index
       live "/dashboard", DashboardLive.Index, :index
-      live "/profile/skills/", UserSkillLive.Index, :index
-      live "/profile/skills/new", UserSkillLive.Index, :new
-      live "/profile/skills/:id/edit", UserSkillLive.Index, :edit
-      scope "/identities" do
-        live "/", Identities.Index, :index
+
+      scope "/profile" do
+
+        live "/skills/", UserSkillLive.Index, :index
+        live "/skills/new", UserSkillLive.Index, :new
+        live "/skills/:id/edit", UserSkillLive.Index, :edit
+
+        live "/identities", Identities.Index, :index
       end
 
 
