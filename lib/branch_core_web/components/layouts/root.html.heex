@@ -16,7 +16,7 @@
       <div class="flex justify-between items-center max-w-7xl mx-auto">
         <!-- Logo / App Name -->
         <div class="text-xl font-bold text-primary">
-          <.link href={~p"/"}>
+          <.link href={if @current_user do ~p"/login_dispatcher" else ~p"/" end}>
             BranchOut
           </.link>
         </div>
@@ -24,10 +24,19 @@
 <!-- Right Side Menu -->
         <ul class="flex items-center gap-6 text-sm text-zinc-900 font-medium">
           <%= if @current_user do %>
+            <li>
+                <.link
+                  href={~p"/dashboard"}
+                  class="hover:text-primary transition"
+                >
+                  Home
+                </.link>
+              </li>
             <.list_element_dropdown id="user">
               <:title><%= @current_user.name %></:title>
               <:link href={~p"/users/settings"}>Account Settings</:link>
               <:link href={~p"/profile/skills"}>Your Skills</:link>
+              <:link href={~p"/profile/identities"}>Identities</:link>
             </.list_element_dropdown>
             <li>
               <.link
