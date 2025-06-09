@@ -401,6 +401,13 @@ defmodule BranchCore.Accounts do
     |> Repo.insert()
   end
 
+  def create_identitity_if_not_found(attrs) do
+    case has_identities_for_provider?(attrs["user_id"], attrs["provider"]) do
+      nil -> create_identity(attrs)
+      identity -> {:ok, identity}
+    end
+  end
+
   @doc """
   Updates a identity.
 
@@ -446,5 +453,14 @@ defmodule BranchCore.Accounts do
   """
   def change_identity(%Identity{} = identity, attrs \\ %{}) do
     Identity.changeset(identity, attrs)
+  end
+
+  def has_identities?(user_id) do
+    from(i in Identity, where: i.user_id == ^user_id)
+    |> Repo.exists?()
+  end
+
+  def has_identities_for_provider?(user_id, provider) do
+    Repo.get_by(Identity, [provider: provider, user_id: user_id])
   end
 end

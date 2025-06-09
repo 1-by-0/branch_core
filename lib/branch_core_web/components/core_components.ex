@@ -621,6 +621,96 @@ defmodule BranchCoreWeb.CoreComponents do
     )
   end
 
+   @doc """
+  Returns a button triggered dropdown as a <li> with aria keyboard and focus supporrt.
+
+  Accepts the follow slots:
+
+    * `:id` - The id to uniquely identify this dropdown
+    * `:title` - The button title
+
+  ## Examples
+
+      <.list_element_dropdown id={@id}>
+        <:title><%= @current_user.name %></:title>
+
+        <:link navigate={~p"/users/settings"}>Accounts Settings</:link>
+        <:link navigate={~p"/profile/skills"}Skills</:link>
+      </.list_element_dropdown>
+  """
+
+  attr :id, :string, required: true
+
+  slot :title
+
+  slot :link do
+    attr :navigate, :string
+    attr :href, :string
+    attr :method, :any
+  end
+
+  def list_element_dropdown(assigns) do
+    ~H"""
+    <li class="relative inline-block text-left">
+      <button
+        id={@id}
+        type="button"
+        class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
+        phx-click={show_dropdown("##{@id}-dropdown")}
+        phx-hook="Menu"
+        aria-haspopup="true"
+      >
+        👋 <%= render_slot(@title) %>
+        <svg class="-mr-1 size-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+        </svg>
+      </button>
+
+      <div
+        id={"#{@id}-dropdown"}
+        class="hidden absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5"
+        role="menu"
+        aria-labelledby={@id}
+        phx-click-away={hide_dropdown("##{@id}-dropdown")}
+      >
+        <div class="py-1">
+          <%= for link <- @link do %>
+          <.link
+              tabindex="-1"
+              role="menuitem"
+              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-primary"
+              {link}
+            >
+            <%= render_slot(link) %>
+          </.link>
+          <% end %>
+        </div>
+      </div>
+    </li>
+
+    """
+  end
+
+  def show_dropdown(to) do
+    JS.show(
+      to: to,
+      transition:
+        {"transition ease-out duration-120", "transform opacity-0 scale-95",
+         "transform opacity-100 scale-100"}
+    )
+    |> JS.set_attribute({"aria-expanded", "true"}, to: to)
+  end
+
+  def hide_dropdown(to) do
+    JS.hide(
+      to: to,
+      transition:
+        {"transition ease-in duration-120", "transform opacity-100 scale-100",
+         "transform opacity-0 scale-95"}
+    )
+    |> JS.remove_attribute("aria-expanded", to: to)
+  end
+
   def show_modal(js \\ %JS{}, id) when is_binary(id) do
     js
     |> JS.show(to: "##{id}")

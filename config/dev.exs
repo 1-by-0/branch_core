@@ -66,9 +66,8 @@ config :branch_core, BranchCoreWeb.Endpoint,
 config :branch_core, dev_routes: true
 
 # Add github Keys
-config :branch_core, :github,
-  client_id: System.fetch_env!("GITHUB_CLIENT_ID"),
-  client_secret: System.fetch_env!("GITHUB_CLIENT_SECRET")
+config :branch_core, :github_client_id, System.fetch_env!("GITHUB_CLIENT_ID")
+config :branch_core, :github_client_secret, System.fetch_env!("GITHUB_CLIENT_SECRET")
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
