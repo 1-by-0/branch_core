@@ -64,13 +64,19 @@ defmodule BranchCoreWeb.Router do
   scope "/", BranchCoreWeb do
     pipe_through [:browser, :require_authenticated_user]
 
+    get "/oauth/callbacks/:provider", OauthCallbackController, :new
+
     live_session :require_authenticated_user,
       on_mount: [{BranchCoreWeb.UserAuth, :ensure_authenticated}] do
       live "/login_dispatcher", LoginDispatcher.Index, :index
+      live "/dashboard", DashboardLive.Index, :index
       live "/profile/skills/", UserSkillLive.Index, :index
       live "/profile/skills/new", UserSkillLive.Index, :new
       live "/profile/skills/:id/edit", UserSkillLive.Index, :edit
-      live "/dashboard", DashboardLive.Index, :index
+      scope "/identities" do
+        live "/", Identities.Index, :index
+      end
+
 
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email

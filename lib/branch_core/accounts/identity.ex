@@ -8,7 +8,7 @@ defmodule BranchCore.Accounts.Identity do
     field :provider_email, :string
     field :provider_id, :string
     field :provider_meta, :map
-    field :user_id, :id
+    belongs_to :user, BranchCore.Accounts.User
 
     timestamps(type: :utc_datetime)
   end
@@ -16,7 +16,7 @@ defmodule BranchCore.Accounts.Identity do
   @doc false
   def changeset(identity, attrs) do
     identity
-    |> cast(attrs, [:provider, :provider_token, :provider_email, :provider_id, :provider_meta])
-    |> validate_required([:provider, :provider_token, :provider_email, :provider_id])
+    |> cast(attrs, [:provider, :provider_token, :provider_email, :provider_id, :provider_meta, :user_id])
+    |> validate_required([:provider, :provider_token, :user_id])
   end
 end

@@ -1,0 +1,38 @@
+<div class="p-6">
+  <h1 class="text-2xl font-bold text-dark mb-2">Connected Identities</h1>
+  <p class="text-gray-700 mb-6 max-w-2xl">
+    Link your GitHub or other developer accounts to personalize your experience and let others discover your work more easily.
+  </p>
+
+  <%= if @has_identities do %>
+    <.table id="user-identities" rows={@streams.identities}>
+      <:col :let={{_id, identity}} label="Provider">
+        <span class="capitalize text-dark"><%= identity.provider %></span>
+      </:col>
+      <%!-- <:col :let={{_id, identity}} label="Username/Handle">
+        <span class="text-gray-800"><%= identity.username %></span>
+      </:col> --%>
+      <%!-- <:action :let={{_id, identity}}>
+        <.link
+          patch={~p"/identities/#{identity}/edit"}
+          class="text-sm text-accent hover:text-hover underline"
+        >
+          Edit
+        </.link>
+      </:action> --%>
+    </.table>
+  <% else %>
+    <div class="bg-light border border-brand rounded-lg p-4 text-dark">
+      <p class="mb-2 font-semibold">You haven't connected any identities yet.</p>
+      <p>
+        Connect your GitHub or other developer profiles to help others learn more about you and to enable richer project recommendations.
+      </p>
+      <.link
+        href={BranchCore.Accounts.Providers.Github.authorize_url()}
+        class="inline-block mt-4 bg-brand hover:bg-hover text-white text-sm font-semibold px-4 py-2 rounded transition"
+      >
+        Connect Github
+      </.link>
+    </div>
+  <% end %>
+</div>

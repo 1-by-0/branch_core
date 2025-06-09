@@ -24,14 +24,11 @@
 <!-- Right Side Menu -->
         <ul class="flex items-center gap-6 text-sm text-zinc-900 font-medium">
           <%= if @current_user do %>
-            <li class="text-zinc-700">
-              👋 {@current_user.email}
-            </li>
-            <li>
-              <.link href={~p"/users/settings"} class="hover:text-primary transition">
-                Settings
-              </.link>
-            </li>
+            <.list_element_dropdown id="user">
+              <:title><%= @current_user.name %></:title>
+              <:link href={~p"/users/settings"}>Account Settings</:link>
+              <:link href={~p"/profile/skills"}>Your Skills</:link>
+            </.list_element_dropdown>
             <li>
               <.link
                 href={~p"/users/log_out"}
