@@ -9,15 +9,13 @@
       href={BranchCore.Accounts.Provider.oauth_authorization_url("github")}
       class="inline-flex items-center gap-2 bg-brand hover:bg-hover text-white text-sm font-semibold px-4 py-2 rounded transition"
     >
-      <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="w-5 h-5" />
-      Connect GitHub
+      <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="w-5 h-5" /> Connect GitHub
     </.link>
     <.link
       href="#"
       class="inline-flex items-center gap-2 bg-brand hover:bg-hover text-white text-sm font-semibold px-4 py-2 rounded transition"
     >
-      <img src="https://cdn.simpleicons.org/gitlab" alt="GitLab" class="w-5 h-5" />
-      Connect GitLab
+      <img src="https://cdn.simpleicons.org/gitlab" alt="GitLab" class="w-5 h-5" /> Connect GitLab
     </.link>
     <.link
       href="#"
@@ -35,13 +33,16 @@
       <%= for {_id, identity} <- @streams.identities do %>
         <div class="bg-white shadow-sm border border-gray-200 rounded-xl p-4 flex items-center gap-4">
           <div class="flex-shrink-0">
-            <img src={"https://cdn.simpleicons.org/#{identity.provider}"}alt="GitHub" class="w-5 h-5" />
+            <img
+              src={"https://cdn.simpleicons.org/#{identity.provider}"}
+              alt="GitHub"
+              class="w-5 h-5"
+            />
           </div>
-          <div class="text-dark font-semibold capitalize"><%= identity.provider %></div>
+          <div class="text-dark font-semibold capitalize">{identity.provider}</div>
         </div>
       <% end %>
     </div>
-
   <% else %>
     <div class="bg-light border border-brand rounded-lg p-4 text-dark">
       <p class="mb-2 font-semibold">You haven't connected any identities yet.</p>

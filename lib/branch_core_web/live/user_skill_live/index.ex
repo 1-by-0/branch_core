@@ -17,7 +17,7 @@ defmodule BranchCoreWeb.UserSkillLive.Index do
 
   @impl true
   def handle_info({BranchCoreWeb.UserSkillLive.FormComponent, {:saved, user_skill}}, socket) do
-    {:noreply, stream_insert(socket, :user_skills, user_skill) |> set_profile_completed_to_true }
+    {:noreply, stream_insert(socket, :user_skills, user_skill) |> set_profile_completed_to_true}
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do

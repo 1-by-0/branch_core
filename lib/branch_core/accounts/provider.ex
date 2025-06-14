@@ -1,7 +1,8 @@
 defmodule BranchCore.Accounts.Provider do
-alias BranchCore.Accounts
+  alias BranchCore.Accounts
 
-  def oauth_authorization_url(provider), do: provider_module(provider) |> module_authorization_url()
+  def oauth_authorization_url(provider),
+    do: provider_module(provider) |> module_authorization_url()
 
   def exchange_access_token(provider, user, opts) do
     provider_module(provider)
@@ -10,12 +11,11 @@ alias BranchCore.Accounts
   end
 
   def create_identitity({:ok, token}, provider, user) do
-    Accounts.create_identitity_if_not_found(
-      %{
-          "user_id" => user.id,
-          "provider_token" => token,
-          "provider" => provider}
-    )
+    Accounts.create_identitity_if_not_found(%{
+      "user_id" => user.id,
+      "provider_token" => token,
+      "provider" => provider
+    })
   end
 
   def create_identitity({:error, error}, _provider, _user) do

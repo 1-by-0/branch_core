@@ -24,7 +24,7 @@
   <% else %>
     <.header>
       <%!-- Your Skills --%>
-    <h2 class="text-2xl font-semibold mb-4">Your Skills</h2>
+      <h2 class="text-2xl font-semibold mb-4">Your Skills</h2>
       <:actions>
         <.link patch={~p"/profile/skills/new"}>
           <.button>Add Skill</.button>
@@ -38,13 +38,13 @@
     <.table id="user-skills" rows={@streams.user_skills}>
       <:col :let={{_id, user_skill}} label="Skill">
         <span class="font-medium">
-          <%= user_skill.skill.name %>
+          {user_skill.skill.name}
         </span>
       </:col>
 
       <:col :let={{_id, user_skill}} label="Level">
         <span class="inline-block rounded-full bg-primary text-white px-3 py-1 text-xs font-semibold">
-          <%= user_skill.level %>
+          {user_skill.level}
         </span>
       </:col>
 

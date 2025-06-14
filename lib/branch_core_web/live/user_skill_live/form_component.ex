@@ -49,7 +49,7 @@ defmodule BranchCoreWeb.UserSkillLive.FormComponent do
           <input type="hidden" name="user_skill[skill_id]" value={@selected_skill_id} />
         <% end %>
         <%= if @action == :edit do %>
-          <h2 class="text-2xl font-semibold mb-4">Skill: <%= @user_skill.skill.name  %></h2>
+          <h2 class="text-2xl font-semibold mb-4">Skill: {@user_skill.skill.name}</h2>
           <input type="hidden" name="user_skill[skill_id]" value={@user_skill.skill.id} />
         <% end %>
         <.input
@@ -96,18 +96,17 @@ defmodule BranchCoreWeb.UserSkillLive.FormComponent do
   def handle_event("suggest-skill", %{"key" => _, "value" => ""}, socket) do
     # IO.inspect(KnowledgeBase.list_similar_skills(params["value"]))
     {:noreply,
-    socket
-    |> assign(:suggestions, [])
-    |> assign(:query, nil)
-  }
+     socket
+     |> assign(:suggestions, [])
+     |> assign(:query, nil)}
   end
 
   def handle_event("suggest-skill", %{"key" => _, "value" => value}, socket) do
     # IO.inspect(KnowledgeBase.list_similar_skills(params["value"]))
     {:noreply,
-    socket
-    |> assign(:suggestions, KnowledgeBase.list_similar_skills(value))
-    |> assign(:query, nil)}
+     socket
+     |> assign(:suggestions, KnowledgeBase.list_similar_skills(value))
+     |> assign(:query, nil)}
   end
 
   def handle_event("select", %{"id" => skill_id, "value" => _value}, socket) do
