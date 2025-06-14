@@ -19,7 +19,10 @@ defmodule BranchCore.MaintainerProjects.Project do
     field :archived, :boolean, default: false
     field :watchers_count, :integer
     field :open_issues_count, :integer
+
     belongs_to :user, BranchCore.Accounts.User
+
+    many_to_many :skills, BranchCore.KnowledgeBase.Skill, join_through: BranchCore.ProjectProfile.ProjectSkill
 
     timestamps(type: :utc_datetime)
   end
