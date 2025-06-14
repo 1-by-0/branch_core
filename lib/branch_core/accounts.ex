@@ -461,6 +461,6 @@ defmodule BranchCore.Accounts do
   end
 
   def has_identities_for_provider?(user_id, provider) do
-    Repo.get_by(Identity, [provider: provider, user_id: user_id])
+    Repo.get_by(Identity, provider: provider, user_id: user_id)
   end
 end

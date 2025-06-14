@@ -1,5 +1,4 @@
 defmodule BranchCore.Accounts.Providers.Github do
-
   import BranchCore.Accounts.Providers.Request
   import BranchCore.Accounts.Providers.Helpers
 
@@ -10,7 +9,6 @@ defmodule BranchCore.Accounts.Providers.Github do
     "redirect_url" => "/oauth/callbacks/github"
   }
 
-
   def authorize_url do
     state = random_string()
     scope = "user public_repo"
@@ -19,20 +17,17 @@ defmodule BranchCore.Accounts.Providers.Github do
   end
 
   def get_access_token(opts) do
-
     code = Keyword.fetch!(opts, :code)
 
-    body = URI.encode_query(
-      %{
+    body =
+      URI.encode_query(%{
         code: code,
         client_id: @client_id,
         client_secret: @client_secret,
-        redirect_uri: "#{host()}#{@urls["redirect_url"]}"}
-    )
-
+        redirect_uri: "#{host()}#{@urls["redirect_url"]}"
+      })
 
     make_request(@urls["token_url"], :post, body) |> get_token_from_body()
-
   end
 
   def get_token_from_body({:error, reason}) do

@@ -16,7 +16,14 @@ defmodule BranchCore.Accounts.Identity do
   @doc false
   def changeset(identity, attrs) do
     identity
-    |> cast(attrs, [:provider, :provider_token, :provider_email, :provider_id, :provider_meta, :user_id])
+    |> cast(attrs, [
+      :provider,
+      :provider_token,
+      :provider_email,
+      :provider_id,
+      :provider_meta,
+      :user_id
+    ])
     |> validate_required([:provider, :provider_token, :user_id])
   end
 end

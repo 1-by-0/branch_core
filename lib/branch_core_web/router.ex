@@ -72,14 +72,12 @@ defmodule BranchCoreWeb.Router do
       live "/dashboard", DashboardLive.Index, :index
 
       scope "/profile" do
-
         live "/skills/", UserSkillLive.Index, :index
         live "/skills/new", UserSkillLive.Index, :new
         live "/skills/:id/edit", UserSkillLive.Index, :edit
 
         live "/identities", Identities.Index, :index
       end
-
 
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email

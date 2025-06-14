@@ -621,7 +621,7 @@ defmodule BranchCoreWeb.CoreComponents do
     )
   end
 
-   @doc """
+  @doc """
   Returns a button triggered dropdown as a <li> with aria keyboard and focus supporrt.
 
   Accepts the follow slots:
@@ -660,9 +660,18 @@ defmodule BranchCoreWeb.CoreComponents do
         phx-hook="Menu"
         aria-haspopup="true"
       >
-        👋 <%= render_slot(@title) %>
-        <svg class="-mr-1 size-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-          <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+        👋 {render_slot(@title)}
+        <svg
+          class="-mr-1 size-5 text-gray-400"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+            clip-rule="evenodd"
+          />
         </svg>
       </button>
 
@@ -675,19 +684,18 @@ defmodule BranchCoreWeb.CoreComponents do
       >
         <div class="py-1">
           <%= for link <- @link do %>
-          <.link
+            <.link
               tabindex="-1"
               role="menuitem"
               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-primary"
               {link}
             >
-            <%= render_slot(link) %>
-          </.link>
+              {render_slot(link)}
+            </.link>
           <% end %>
         </div>
       </div>
     </li>
-
     """
   end
 
