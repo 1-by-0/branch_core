@@ -384,6 +384,25 @@ defmodule BranchCore.Accounts do
   def get_identity!(id), do: Repo.get!(Identity, id)
 
   @doc """
+  Gets a single identity for a user and provider.
+
+  Raises `Ecto.NoResultsError` if the Identity does not exist.
+
+  ## Examples
+
+      iex> get_identity!(user_id, provider)
+      %Identity{}
+
+      iex> get_identity!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_identity_for_user(user, provider) do
+    from(i in Identity, where: i.user_id == ^user.id and i.provider == ^provider)
+    |> Repo.one()
+  end
+
+  @doc """
   Creates a identity.
 
   ## Examples

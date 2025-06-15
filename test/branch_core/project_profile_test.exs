@@ -23,7 +23,8 @@ defmodule BranchCore.ProjectProfileTest do
     test "create_project_skill/1 with valid data creates a project_skill" do
       valid_attrs = %{}
 
-      assert {:ok, %ProjectSkill{} = project_skill} = ProjectProfile.create_project_skill(valid_attrs)
+      assert {:ok, %ProjectSkill{} = project_skill} =
+               ProjectProfile.create_project_skill(valid_attrs)
     end
 
     test "create_project_skill/1 with invalid data returns error changeset" do
@@ -34,19 +35,26 @@ defmodule BranchCore.ProjectProfileTest do
       project_skill = project_skill_fixture()
       update_attrs = %{}
 
-      assert {:ok, %ProjectSkill{} = project_skill} = ProjectProfile.update_project_skill(project_skill, update_attrs)
+      assert {:ok, %ProjectSkill{} = project_skill} =
+               ProjectProfile.update_project_skill(project_skill, update_attrs)
     end
 
     test "update_project_skill/2 with invalid data returns error changeset" do
       project_skill = project_skill_fixture()
-      assert {:error, %Ecto.Changeset{}} = ProjectProfile.update_project_skill(project_skill, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               ProjectProfile.update_project_skill(project_skill, @invalid_attrs)
+
       assert project_skill == ProjectProfile.get_project_skill!(project_skill.id)
     end
 
     test "delete_project_skill/1 deletes the project_skill" do
       project_skill = project_skill_fixture()
       assert {:ok, %ProjectSkill{}} = ProjectProfile.delete_project_skill(project_skill)
-      assert_raise Ecto.NoResultsError, fn -> ProjectProfile.get_project_skill!(project_skill.id) end
+
+      assert_raise Ecto.NoResultsError, fn ->
+        ProjectProfile.get_project_skill!(project_skill.id)
+      end
     end
 
     test "change_project_skill/1 returns a project_skill changeset" do

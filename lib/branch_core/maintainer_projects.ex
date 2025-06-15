@@ -9,7 +9,7 @@ defmodule BranchCore.MaintainerProjects do
   alias BranchCore.MaintainerProjects.Project
 
   @doc """
-  Returns the list of r_projects.
+  Returns the list of projects.
 
   ## Examples
 
@@ -19,6 +19,20 @@ defmodule BranchCore.MaintainerProjects do
   """
   def list_projects do
     Repo.all(Project)
+  end
+
+  @doc """
+  Returns the list of projects for a user.
+
+  ## Examples
+
+      iex> list_projects(user)
+      [%Project{}, ...]
+
+  """
+  def list_projects(user) do
+    from(p in Project, where: p.user_id == ^user.id)
+    |> Repo.all()
   end
 
   @doc """

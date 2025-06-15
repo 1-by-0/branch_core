@@ -10,9 +10,7 @@ defmodule BranchCore.ProjectProfileFixtures do
   def project_skill_fixture(attrs \\ %{}) do
     {:ok, project_skill} =
       attrs
-      |> Enum.into(%{
-
-      })
+      |> Enum.into(%{})
       |> BranchCore.ProjectProfile.create_project_skill()
 
     project_skill

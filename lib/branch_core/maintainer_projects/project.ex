@@ -22,7 +22,8 @@ defmodule BranchCore.MaintainerProjects.Project do
 
     belongs_to :user, BranchCore.Accounts.User
 
-    many_to_many :skills, BranchCore.KnowledgeBase.Skill, join_through: BranchCore.ProjectProfile.ProjectSkill
+    many_to_many :skills, BranchCore.KnowledgeBase.Skill,
+      join_through: BranchCore.ProjectProfile.ProjectSkill
 
     timestamps(type: :utc_datetime)
   end
