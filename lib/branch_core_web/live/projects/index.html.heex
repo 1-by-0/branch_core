@@ -1,0 +1,94 @@
+<div class="bg-light text-dark font-sans p-8">
+  <h1 class="text-3xl font-bold mb-6 text-brand">Your Maintainer Projects</h1>
+
+  <%= if @projects == [] do %>
+    <div class="bg-white border border-brand p-6 rounded-xl shadow-md">
+      <p class="text-lg mb-4">You haven’t listed any repositories for contribution yet.</p>
+      <button phx-click="show_modal" class="bg-brand hover:bg-hover text-white text-sm font-semibold px-4 py-2 rounded transition">
+        + Add Your First Project
+      </button>
+    </div>
+  <% else %>
+    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <%= for project <- @projects do %>
+        <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-5 hover:shadow-md transition">
+          <div class="flex items-start justify-between mb-2">
+            <h2 class="text-xl font-semibold text-brand">
+              <a href={project.html_url} target="_blank" class="hover:underline">
+                {project.full_name}
+              </a>
+            </h2>
+          </div>
+
+          <p class="text-gray-700 text-sm mb-3">
+            {project.description || "No description provided."}
+          </p>
+
+          <dl class="text-sm text-dark space-y-1">
+            <div>
+              <dt class="inline font-semibold">Visibility:</dt>
+              
+              <dd class="inline">{project.visibility}</dd>
+            </div>
+            <div>
+              <dt class="inline font-semibold">Open Issues:</dt>
+              
+              <dd class="inline">{project.open_issues_count}</dd>
+            </div>
+            <div>
+              <dt class="inline font-semibold">Watchers:</dt>
+              
+              <dd class="inline">{project.watchers_count}</dd>
+            </div>
+            <div>
+              <dt class="inline font-semibold">Topics:</dt>
+              <dd class="inline">
+                <%= if Enum.any?(project.topics || []) do %>
+                  {Enum.join(project.topics, ", ")}
+                <% else %>
+                  <span class="text-gray-400">None</span>
+                <% end %>
+              </dd>
+            </div>
+          </dl>
+
+          <div class="mt-4 flex flex-wrap gap-2 text-xs">
+            {if project.has_issues, do: status_tag("Issues Enabled")}
+            {if project.has_projects, do: status_tag("Projects")}
+            {if project.has_wiki, do: status_tag("Wiki")}
+            {if project.is_template, do: status_tag("Template")}
+            {if project.archived, do: status_tag("Archived")}
+            {if project.disabled, do: status_tag("Disabled")}
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<%= if @show_modal do %>
+  <div class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl relative">
+      <h2 class="text-xl font-bold text-brand mb-4">Select a provider</h2>
+
+      <div class="space-y-3">
+        <%= for provider <- ["github", "gitlab", "bitbucket"] do %>
+          <.link
+						href="#"
+						class="inline-flex items-center gap-2 bg-brand hover:bg-hover text-white text-sm font-semibold px-4 py-2 rounded transition"
+					>
+						<img src={"https://cdn.simpleicons.org/#{provider}"} alt={"#{provider}"} class="w-5 h-5" /> Connect GitHub
+					</.link>
+        <% end %>
+      </div>
+
+      <button
+        phx-click="close_modal"
+        class="absolute top-3 right-3 text-gray-500 hover:text-danger"
+        aria-label="Close"
+      >
+        &times;
+      </button>
+    </div>
+  </div>
+<% end %>

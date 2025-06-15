@@ -6,7 +6,8 @@ defmodule BranchCore.Accounts.Providers.Github do
   @client_secret Application.compile_env(:branch_core, :github_client_secret)
   @urls %{
     "token_url" => "https://github.com/login/oauth/access_token",
-    "redirect_url" => "/oauth/callbacks/github"
+    "redirect_url" => "/oauth/callbacks/github",
+    "repos" => "https://api.github.com/user/repos?visibility=public"
   }
 
   def authorize_url do
@@ -27,14 +28,14 @@ defmodule BranchCore.Accounts.Providers.Github do
         redirect_uri: "#{host()}#{@urls["redirect_url"]}"
       })
 
-    make_request(@urls["token_url"], :post, body) |> get_token_from_body()
+    make_request(@urls["token_url"], :post, body: body) |> process_returned_value()
   end
 
-  def get_token_from_body({:error, reason}) do
-    {:error, reason}
+  def repos(token) do
+    make_request(@urls["repos"], :get, token: token) |> process_returned_value
   end
 
-  def get_token_from_body({:ok, %{"access_token" => token}}) do
-    {:ok, token}
-  end
+  def process_returned_value({:error, reason}), do: {:error, reason}
+  def process_returned_value({:ok, %{access_token: token}}), do: {:ok, token}
+  def process_returned_value({:ok, value}), do: {:ok, value}
 end

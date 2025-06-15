@@ -1,0 +1,41 @@
+<div class="flex gap-4">
+  <!-- All Repos Panel -->
+  <div class="w-1/2 bg-light p-4 rounded-lg shadow-inner overflow-y-auto h-[500px]">
+    <h2 class="text-lg font-bold mb-2 text-dark">All Repositories</h2>
+
+    <%= for repo <- @repos do %>
+      <div
+        class="mb-2 p-3 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md cursor-pointer"
+        phx-click="select_repo"
+        phx-value-id={repo.id}
+      >
+        <div class="font-semibold text-dark truncate"><%= repo.name%></div>
+        <div class="text-sm text-gray-600 truncate"><%= repo.description || "No description" %></div>
+      </div>
+    <% end %>
+
+    <%= if Enum.empty?(@repos) do %>
+      <p class="text-sm text-gray-500">All repositories have been selected.</p>
+    <% end %>
+  </div>
+
+  <!-- Selected Repos Panel -->
+  <div class="w-1/2 bg-light p-4 rounded-lg shadow-inner overflow-y-auto h-[500px]">
+    <h2 class="text-lg font-bold mb-2 text-dark">Selected for Contribution</h2>
+
+    <%= for repo <- @selected_repos do %>
+      <div
+        class="mb-2 p-3 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md cursor-pointer"
+        phx-click="deselect_repo"
+        phx-value-id={repo.id}
+      >
+        <div class="font-semibold text-dark truncate"><%= repo.name %></div>
+        <div class="text-sm text-gray-600 truncate"><%= repo.description|| "No description" %></div>
+      </div>
+    <% end %>
+
+    <%= if Enum.empty?(@selected_repos) do %>
+      <p class="text-sm text-gray-500">No repositories selected yet.</p>
+    <% end %>
+  </div>
+</div>

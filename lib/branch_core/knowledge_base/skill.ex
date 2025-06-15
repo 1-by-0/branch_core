@@ -9,7 +9,8 @@ defmodule BranchCore.KnowledgeBase.Skill do
 
     has_many :user_skills, BranchCore.Profile.UserSkill
 
-    many_to_many :projects, BranchCore.MaintainerProjects.Project, join_through: BranchCore.ProjectProfile.ProjectSkill
+    many_to_many :projects, BranchCore.MaintainerProjects.Project,
+      join_through: BranchCore.ProjectProfile.ProjectSkill
 
     timestamps(type: :utc_datetime)
   end

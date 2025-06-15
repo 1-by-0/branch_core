@@ -3,7 +3,6 @@ defmodule BranchCore.ProjectProfile.ProjectSkill do
   import Ecto.Changeset
 
   schema "project_skills" do
-
     belongs_to :projects, BranchCore.MaintainerProjects.Project
     belongs_to :skills, BranchCore.KnowledgeBase.Skill
 
