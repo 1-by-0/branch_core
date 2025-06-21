@@ -9,22 +9,18 @@ defmodule BranchCore.SyncRunners.Projects.Creator do
   end
 
   def child_spec(args) do
-  %{
-    id: __MODULE__,
-    start: {__MODULE__, :start_link, [args]},
-    restart: :temporary,
-    type: :worker
-  }
+    %{
+      id: __MODULE__,
+      start: {__MODULE__, :start_link, [args]},
+      restart: :temporary,
+      type: :worker
+    }
   end
 
   @impl true
   def init({repo, user}) do
     Process.flag(:trap_exit, true)
-    {:ok,
-    %{repo: repo,
-      user: user,
-      retries: 0},
-    {:continue, :create_project}}
+    {:ok, %{repo: repo, user: user, retries: 0}, {:continue, :create_project}}
   end
 
   @impl true
@@ -43,6 +39,7 @@ defmodule BranchCore.SyncRunners.Projects.Creator do
     attrs =
       Map.put(state.repo, :user_id, state.user.id)
       |> Map.put(:provider_repo_id, state.repo.id)
+
     case MaintainerProjects.create_project(attrs) do
       {:ok, project} ->
         IO.inspect(attrs.language)
@@ -51,6 +48,7 @@ defmodule BranchCore.SyncRunners.Projects.Creator do
 
       {:error, _changeset} ->
         retries = state.retries + 1
+
         if retries == 3 do
           {:stop, :normal, nil}
         else
@@ -61,6 +59,7 @@ defmodule BranchCore.SyncRunners.Projects.Creator do
 
   def add_language_mapping(language, project) do
     skill = KnowledgeBase.get_skill_by_name(language)
+
     ProjectProfile.create_project_skill(%{
       "skill" => skill,
       "project" => project

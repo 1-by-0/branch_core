@@ -519,40 +519,41 @@ defmodule BranchCoreWeb.CoreComponents do
     """
   end
 
-   @doc ~S"""
+  @doc ~S"""
   Renders List of cards
   """
-   attr :id, :string, required: true
-   attr :rows, :list, required: true
-   attr :row_id, :any, default: nil, doc: "the function for generating the row id"
-   attr :row_item, :any,
-     default: &Function.identity/1,
-     doc: "the function for mapping each row before calling the :card slot"
+  attr :id, :string, required: true
+  attr :rows, :list, required: true
+  attr :row_id, :any, default: nil, doc: "the function for generating the row id"
 
-   slot :card, required: true, doc: "slot for rendering each card"
+  attr :row_item, :any,
+    default: &Function.identity/1,
+    doc: "the function for mapping each row before calling the :card slot"
 
-   def cards(assigns) do
-     assigns =
-       with %{rows: %Phoenix.LiveView.LiveStream{}} <- assigns do
-         assign(assigns, row_id: assigns.row_id || fn {id, _item} -> id end)
-       else
-         _ -> assigns
-       end
+  slot :card, required: true, doc: "slot for rendering each card"
 
-     ~H"""
-     <div
-       id={@id}
-       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
-       phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}
-     >
-       <%= for row <- @rows do %>
-         <div id={@row_id && @row_id.(row)}>
-           <%= render_slot(@card, @row_item.(row)) %>
-         </div>
-       <% end %>
-     </div>
-     """
-   end
+  def cards(assigns) do
+    assigns =
+      with %{rows: %Phoenix.LiveView.LiveStream{}} <- assigns do
+        assign(assigns, row_id: assigns.row_id || fn {id, _item} -> id end)
+      else
+        _ -> assigns
+      end
+
+    ~H"""
+    <div
+      id={@id}
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
+      phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}
+    >
+      <%= for row <- @rows do %>
+        <div id={@row_id && @row_id.(row)}>
+          {render_slot(@card, @row_item.(row))}
+        </div>
+      <% end %>
+    </div>
+    """
+  end
 
   @doc """
   Renders a data list.

@@ -1,16 +1,19 @@
 <.header>
   <h2 class="text-2xl font-semibold mb-4">Yout Projects</h2>
-    <:actions>
-      <.link patch={~p"/projects/github/new"}>
-        <.button>Add GithHub Project</.button>
-      </.link>
-    </:actions>
+  <:actions>
+    <.link patch={~p"/projects/github/new"}>
+      <.button>Add GithHub Project</.button>
+    </.link>
+  </:actions>
 </.header>
 <div class="bg-light text-dark font-sans p-8">
   <%= if @projects == [] do %>
     <div class="bg-white border border-brand p-6 rounded-xl shadow-md">
       <p class="text-lg mb-4">You haven’t listed any repositories for contribution yet.</p>
-      <button phx-click="show_modal" class="bg-brand hover:bg-hover text-white text-sm font-semibold px-4 py-2 rounded transition">
+      <button
+        phx-click="show_modal"
+        class="bg-brand hover:bg-hover text-white text-sm font-semibold px-4 py-2 rounded transition"
+      >
         + Add Your First Project
       </button>
     </div>
@@ -33,17 +36,17 @@
           <dl class="text-sm text-dark space-y-1">
             <div>
               <dt class="inline font-semibold">Visibility:</dt>
-              
+
               <dd class="inline">{project.visibility}</dd>
             </div>
             <div>
               <dt class="inline font-semibold">Open Issues:</dt>
-              
+
               <dd class="inline">{project.open_issues_count}</dd>
             </div>
             <div>
               <dt class="inline font-semibold">Watchers:</dt>
-              
+
               <dd class="inline">{project.watchers_count}</dd>
             </div>
             <div>
@@ -80,11 +83,15 @@
       <div class="space-y-3">
         <%= for provider <- ["github", "gitlab", "bitbucket"] do %>
           <.link
-						href="#"
-						class="inline-flex items-center gap-2 bg-brand hover:bg-hover text-white text-sm font-semibold px-4 py-2 rounded transition"
-					>
-						<img src={"https://cdn.simpleicons.org/#{provider}"} alt={"#{provider}"} class="w-5 h-5" /> Connect GitHub
-					</.link>
+            href="#"
+            class="inline-flex items-center gap-2 bg-brand hover:bg-hover text-white text-sm font-semibold px-4 py-2 rounded transition"
+          >
+            <img
+              src={"https://cdn.simpleicons.org/#{provider}"}
+              alt={"#{provider}"}
+              class="w-5 h-5"
+            /> Connect GitHub
+          </.link>
         <% end %>
       </div>
 

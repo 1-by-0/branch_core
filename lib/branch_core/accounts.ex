@@ -41,11 +41,13 @@ defmodule BranchCore.Accounts do
   def get_user_by_email_and_password(email, password)
       when is_binary(email) and is_binary(password) do
     user = Repo.get_by(User, email: email)
+
     if User.valid_password?(user, password) do
       {:ok, updated_user} =
         user
         |> User.sign_in_count_changeset(%{"sign_in_count" => user.sign_in_count + 1})
         |> Repo.update()
+
       updated_user
     end
   end
