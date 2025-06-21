@@ -134,6 +134,12 @@ defmodule BranchCore.Accounts.User do
     change(user, confirmed_at: now)
   end
 
+  def sign_in_count_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:sign_in_count])
+    |> validate_required([:sign_in_count])
+  end
+
   @doc """
   Verifies the password.
 
