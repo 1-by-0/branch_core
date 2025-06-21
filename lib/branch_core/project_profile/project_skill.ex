@@ -3,8 +3,8 @@ defmodule BranchCore.ProjectProfile.ProjectSkill do
   import Ecto.Changeset
 
   schema "project_skills" do
-    belongs_to :projects, BranchCore.MaintainerProjects.Project
-    belongs_to :skills, BranchCore.KnowledgeBase.Skill
+    belongs_to :project, BranchCore.MaintainerProjects.Project
+    belongs_to :skill, BranchCore.KnowledgeBase.Skill
 
     timestamps(type: :utc_datetime)
   end
@@ -12,7 +12,8 @@ defmodule BranchCore.ProjectProfile.ProjectSkill do
   @doc false
   def changeset(project_skill, attrs) do
     project_skill
-    |> cast(attrs, [:skill_id, :project_id])
-    |> validate_required([:skill_id, :project_id])
+    |> cast(attrs, [])
+    |> put_assoc(:skill, attrs["skill"])
+    |> put_assoc(:project, attrs["project"])
   end
 end
