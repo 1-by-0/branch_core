@@ -34,29 +34,50 @@
         </.link>
       </:actions>
     </.header>
+    <div class="mt-5">
+      <.cards id="user-skills" rows={@streams.user_skills} row_id={fn {id, _} -> "skill-#{id}" end}>
+        <:card :let={{_id, user_skill}}>
+          <div class="bg-white rounded-2xl border border-gray-200 shadow hover:shadow-md transition p-4 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <h3 class="text-lg font-semibold text-dark">
+                  {user_skill.skill.name}
+                </h3>
+                <.link
+                  patch={~p"/profile/skills/#{user_skill}/edit"}
+                  class="text-sm text-gray-500 hover:text-primary"
+                >
+                  ✏️
+                </.link>
+              </div>
 
-    <.table id="user-skills" rows={@streams.user_skills}>
-      <:col :let={{_id, user_skill}} label="Skill">
-        <span class="font-medium">
-          {user_skill.skill.name}
-        </span>
-      </:col>
+              <span class="inline-block rounded-full bg-primary text-white px-3 py-1 text-xs font-semibold mb-2">
+                {user_skill.level}
+              </span>
 
-      <:col :let={{_id, user_skill}} label="Level">
-        <span class="inline-block rounded-full bg-primary text-white px-3 py-1 text-xs font-semibold">
-          {user_skill.level}
-        </span>
-      </:col>
-
-      <:action :let={{_id, user_skill}}>
-        <.link
-          patch={~p"/profile/skills/#{user_skill}/edit"}
-          class="text-sm hover:text-primary hover:underline"
-        >
-          Edit
-        </.link>
-      </:action>
-    </.table>
+              <%!-- <p class="text-xs text-gray-500">
+                <%= if user_skill.years_experience do %>
+                  📆 {user_skill.years_experience}+ years experience
+                <% end %>
+                <br/>
+                <%= if user_skill.last_used_at do %>
+                  🔄 Last used: {Timex.format!(user_skill.last_used_at, "{Mfull} {YYYY}", :strftime)}
+                <% end %>
+              </p> --%>
+            </div>
+          </div>
+        </:card>
+      </.cards>
+    </div>
+    <%= if !@profile_completed || @current_user.sign_in_count == 0 do %>
+      <div class="mt-5">
+        <center>
+          <.link patch={~p"/profile/identities"}>
+            <.button>Done Adding Skills</.button>
+          </.link>
+        </center>
+      </div>
+    <% end %>
   <% end %>
 </div>
 

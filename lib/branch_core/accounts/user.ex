@@ -9,6 +9,7 @@ defmodule BranchCore.Accounts.User do
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
+    field :sign_in_count, :integer
 
     has_many :user_skills, BranchCore.Profile.UserSkill
 
