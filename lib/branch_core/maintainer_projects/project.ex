@@ -6,10 +6,10 @@ defmodule BranchCore.MaintainerProjects.Project do
     field :disabled, :boolean, default: false
     field :name, :string
     field :description, :string
-    field :github_repo_id, :integer
+    field :provider_repo_id, :integer
     field :full_name, :string
     field :html_url, :string
-    field :homepage, :string
+    field :homepage_url, :string
     field :topics, {:array, :string}
     field :visibility, :string
     field :is_template, :boolean, default: false
@@ -32,12 +32,11 @@ defmodule BranchCore.MaintainerProjects.Project do
   def changeset(project, attrs) do
     project
     |> cast(attrs, [
-      :github_repo_id,
+      :provider_repo_id,
       :name,
       :full_name,
       :description,
       :html_url,
-      :homepage,
       :topics,
       :visibility,
       :is_template,
@@ -47,25 +46,14 @@ defmodule BranchCore.MaintainerProjects.Project do
       :archived,
       :disabled,
       :watchers_count,
-      :open_issues_count
+      :open_issues_count,
+      :user_id
     ])
     |> validate_required([
-      :github_repo_id,
+      :provider_repo_id,
       :name,
       :full_name,
-      :description,
-      :html_url,
-      :homepage,
-      :topics,
-      :visibility,
-      :is_template,
-      :has_issues,
-      :has_projects,
-      :has_wiki,
-      :archived,
-      :disabled,
-      :watchers_count,
-      :open_issues_count
+      :user_id
     ])
   end
 end

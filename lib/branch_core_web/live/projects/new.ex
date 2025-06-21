@@ -1,6 +1,8 @@
 defmodule BranchCoreWeb.ProjectLive.New do
-alias BranchCore.Accounts.Provider
   use BranchCoreWeb, :live_view
+
+  alias BranchCore.SyncSupervisors.Projects.CreateProcessor
+  alias BranchCore.Accounts.Provider
 
   def mount(%{"provider" => provider}, _session, socket) do
     {:ok,
@@ -29,6 +31,11 @@ alias BranchCore.Accounts.Provider
      socket
      |> assign(:selected_repos, selected)
      |> assign(:repos, all)}
+  end
+
+  def handle_event("add_for_contribution", _, socket) do
+    CreateProcessor.process(socket.assigns.selected_repos, socket.assigns.current_user)
+    {:noreply, push_navigate(socket, to: ~p"/projects")}
   end
 
   defp fetch_repositories_for_provider(socket, provider) do

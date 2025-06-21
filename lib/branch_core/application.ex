@@ -15,6 +15,7 @@ defmodule BranchCore.Application do
       # Start the Finch HTTP client for sending emails
       {Finch, name: BranchCore.Finch},
       {BranchCore.SyncRunners.SkillSyncRunnner, %{}},
+      {BranchCore.SyncSupervisors.Projects.CreateSupervisor, []},
       # Start a worker by calling: BranchCore.Worker.start_link(arg)
       # {BranchCore.Worker, arg},
       # Start to serve requests, typically the last entry
