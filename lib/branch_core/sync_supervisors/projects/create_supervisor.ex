@@ -11,7 +11,10 @@ defmodule BranchCore.SyncSupervisors.Projects.CreateSupervisor do
   end
 
   def start_repo_creation(repo, user) do
-    case DynamicSupervisor.start_child(__MODULE__, {BranchCore.SyncRunners.Projects.Creator, {repo, user}}) do
+    case DynamicSupervisor.start_child(
+           __MODULE__,
+           {BranchCore.SyncRunners.Projects.Creator, {repo, user}}
+         ) do
       {:ok, pid} -> IO.inspect({:ok, pid})
       error -> IO.inspect({:error, error})
     end

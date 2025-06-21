@@ -10,7 +10,8 @@
         href={BranchCore.Accounts.Provider.oauth_authorization_url("github")}
         class="inline-flex items-center gap-2 bg-brand hover:bg-hover text-white text-sm font-semibold px-4 py-2 rounded transition"
       >
-        <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="w-5 h-5" /> Connect GitHub
+        <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="w-5 h-5" />
+        Connect GitHub
       </.link>
     <% end %>
     <%= if !@has_gitlab do %>
@@ -18,10 +19,11 @@
         href="#"
         class="inline-flex items-center gap-2 bg-brand hover:bg-hover text-white text-sm font-semibold px-4 py-2 rounded transition"
       >
-        <img src="https://cdn.simpleicons.org/gitlab" alt="GitLab" class="w-5 h-5" /> Connect GitLab
+        <img src="https://cdn.simpleicons.org/gitlab" alt="GitLab" class="w-5 h-5" />
+        Connect GitLab
       </.link>
     <% end %>
-    <%=  if !@has_bitbucket do %>
+    <%= if !@has_bitbucket do %>
       <.link
         href="#"
         class="inline-flex items-center gap-2 bg-brand hover:bg-hover text-white text-sm font-semibold px-4 py-2 rounded transition"
@@ -60,12 +62,12 @@
   <% end %>
 
   <%= if @current_user.sign_in_count == 0 do %>
-      <div class="mt-5">
-        <center>
-          <.link patch={~p"/dashboard"}>
-            <.button>Skip and move to dashboard</.button>
-          </.link>
-        </center>
-      </div>
-    <% end %>
+    <div class="mt-5">
+      <center>
+        <.link patch={~p"/dashboard"}>
+          <.button>Skip and move to dashboard</.button>
+        </.link>
+      </center>
+    </div>
+  <% end %>
 </div>

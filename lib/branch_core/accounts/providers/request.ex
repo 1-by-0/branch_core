@@ -36,7 +36,7 @@ defmodule BranchCore.Accounts.Providers.Request do
     end
   end
 
-  defp decode_body(body), do: Jason.decode(body, [keys: :atoms])
+  defp decode_body(body), do: Jason.decode(body, keys: :atoms)
 
   defp default_headers, do: [{"accept", "application/json"}]
 end

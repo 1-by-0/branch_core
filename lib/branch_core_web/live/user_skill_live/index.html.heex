@@ -35,7 +35,11 @@
       </:actions>
     </.header>
     <div class="mt-5">
-      <.cards id="user-skills" rows={@streams.user_skills} row_id={fn {id, _} -> "skill-#{id}" end}>
+      <.cards
+        id="user-skills"
+        rows={@streams.user_skills}
+        row_id={fn {id, _} -> "skill-#{id}" end}
+      >
         <:card :let={{_id, user_skill}}>
           <div class="bg-white rounded-2xl border border-gray-200 shadow hover:shadow-md transition p-4 flex flex-col justify-between">
             <div>

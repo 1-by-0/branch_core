@@ -5,7 +5,9 @@ defmodule BranchCoreWeb.Identities.Index do
 
   def mount(_params, _session, socket) do
     user = socket.assigns.current_user
-    {:ok, assign_has_identities_and_identities(socket, get_has_identities(user), get_identities(user))}
+
+    {:ok,
+     assign_has_identities_and_identities(socket, get_has_identities(user), get_identities(user))}
   end
 
   defp assign_has_identities_and_identities(socket, false, _identities) do

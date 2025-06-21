@@ -6,9 +6,9 @@ defmodule BranchCoreWeb.ProjectLive.New do
 
   def mount(%{"provider" => provider}, _session, socket) do
     {:ok,
-    socket
-    |> fetch_repositories_for_provider(provider)
-    |> assign(:selected_repos, [])}
+     socket
+     |> fetch_repositories_for_provider(provider)
+     |> assign(:selected_repos, [])}
   end
 
   def handle_event("select_repo", %{"id" => repo_id}, socket) do

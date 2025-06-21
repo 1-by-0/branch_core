@@ -24,9 +24,7 @@ defmodule BranchCore.Accounts.Provider do
 
   def get_user_repos(user, provider) do
     provider_module(provider)
-    |> call_module_repos_list_function(
-      get_user_identity_for_provider(provider, user)
-    )
+    |> call_module_repos_list_function(get_user_identity_for_provider(provider, user))
   end
 
   def get_user_identity_for_provider(provider, user) do
