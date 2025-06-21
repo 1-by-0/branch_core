@@ -1,4 +1,6 @@
 defmodule BranchCore.SyncRunners.Projects.Creator do
+  alias BranchCore.KnowledgeBase
+  alias BranchCore.ProjectProfile
   alias BranchCore.MaintainerProjects
   use GenServer
 
@@ -42,9 +44,10 @@ defmodule BranchCore.SyncRunners.Projects.Creator do
       Map.put(state.repo, :user_id, state.user.id)
       |> Map.put(:provider_repo_id, state.repo.id)
     case MaintainerProjects.create_project(attrs) do
-      {:ok, _project} ->
+      {:ok, project} ->
+        IO.inspect(attrs.language)
+        add_language_mapping(attrs.language, project)
         {:stop, :shutdown, state}
-        # {:noreply, state}
 
       {:error, _changeset} ->
         retries = state.retries + 1
@@ -54,5 +57,13 @@ defmodule BranchCore.SyncRunners.Projects.Creator do
           {:noreply, %{state | retries: retries}, {:continue, :create_project}}
         end
     end
+  end
+
+  def add_language_mapping(language, project) do
+    skill = KnowledgeBase.get_skill_by_name(language)
+    ProjectProfile.create_project_skill(%{
+      "skill" => skill,
+      "project" => project
+    })
   end
 end
