@@ -21,6 +21,19 @@ defmodule BranchCore.ProjectProfile do
     Repo.all(ProjectSkill)
   end
 
+  def list_profiles_for_skills_dashboard(user_skills) do
+    skill_ids = Enum.map(user_skills, fn user_skill -> user_skill.skill.id end)
+
+    from(p in ProjectSkill,
+      where: p.skill_id in ^skill_ids,
+      order_by: [desc: p.inserted_at],
+      limit: 3
+    )
+    |> Repo.all()
+    |> Repo.preload(:project)
+    |> Repo.preload(:skill)
+  end
+
   @doc """
   Gets a single project_skill.
 
