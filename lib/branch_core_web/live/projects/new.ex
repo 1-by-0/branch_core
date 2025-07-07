@@ -1,8 +1,9 @@
 defmodule BranchCoreWeb.ProjectLive.New do
   use BranchCoreWeb, :live_view
 
-  alias BranchCore.SyncSupervisors.Projects.CreateProcessor
   alias BranchCore.Accounts.Provider
+  alias BranchCore.MaintainerProjects
+  alias BranchCore.SyncSupervisors.Projects.CreateProcessor
 
   def mount(%{"provider" => provider}, _session, socket) do
     {:ok,
@@ -40,8 +41,15 @@ defmodule BranchCoreWeb.ProjectLive.New do
 
   defp fetch_repositories_for_provider(socket, provider) do
     case Provider.get_user_repos(socket.assigns.current_user, provider) do
-      {:ok, repos} -> assign(socket, :repos, repos)
+      {:ok, repos} -> assign(socket, :repos, filter_existing_repos(socket, repos))
       {:error, _} -> assign(socket, :error, true)
     end
+  end
+
+  defp filter_existing_repos(socket, repos) do
+    existing_projects_ids =
+      MaintainerProjects.list_projects(socket.assigns.current_user)
+      |> Enum.map(fn r -> r.provider_repo_id end)
+    Enum.filter(repos, fn r -> r.id not in existing_projects_ids end)
   end
 end
