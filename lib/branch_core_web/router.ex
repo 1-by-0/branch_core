@@ -82,6 +82,8 @@ defmodule BranchCoreWeb.Router do
       live "/projects", ProjectLive.Index, :index
       live "/projects/:provider/new", ProjectLive.New, :new
 
+      live "/recommendations", Recommendations.Index, :index
+
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
     end

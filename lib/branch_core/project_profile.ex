@@ -21,6 +21,12 @@ defmodule BranchCore.ProjectProfile do
     Repo.all(ProjectSkill)
   end
 
+  def list_profiles_for_skills(user_skills) do
+    extract_skills(user_skills)
+    |> project_for_skills_query()
+    |> execute_and_preload_for_list()
+  end
+
   def list_profiles_for_skills_dashboard(user_skills) do
     skill_ids = Enum.map(user_skills, fn user_skill -> user_skill.skill.id end)
 
@@ -113,5 +119,23 @@ defmodule BranchCore.ProjectProfile do
   """
   def change_project_skill(%ProjectSkill{} = project_skill, attrs \\ %{}) do
     ProjectSkill.changeset(project_skill, attrs)
+  end
+
+  defp extract_skills(user_skills) do
+    Enum.map(user_skills, fn user_skill -> user_skill.skill.id end)
+  end
+
+  defp project_for_skills_query(skill_ids) do
+    from(p in ProjectSkill,
+      where: p.skill_id in ^skill_ids,
+      order_by: [desc: p.inserted_at]
+    )
+  end
+
+  defp execute_and_preload_for_list(query) do
+    query
+    |> Repo.all()
+    |> Repo.preload(:project)
+    |> Repo.preload(:skill)
   end
 end
