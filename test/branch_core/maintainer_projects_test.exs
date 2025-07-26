@@ -143,4 +143,66 @@ defmodule BranchCore.MaintainerProjectsTest do
       assert %Ecto.Changeset{} = MaintainerProjects.change_project(project)
     end
   end
+
+  describe "project_issues" do
+    alias BranchCore.MaintainerProjects.ProjectIssue
+
+    import BranchCore.MaintainerProjectsFixtures
+
+    @invalid_attrs %{label: nil, state: nil, title: nil, body: nil, html_url: nil}
+
+    test "list_project_issues/0 returns all project_issues" do
+      project_issue = project_issue_fixture()
+      assert MaintainerProjects.list_project_issues() == [project_issue]
+    end
+
+    test "get_project_issue!/1 returns the project_issue with given id" do
+      project_issue = project_issue_fixture()
+      assert MaintainerProjects.get_project_issue!(project_issue.id) == project_issue
+    end
+
+    test "create_project_issue/1 with valid data creates a project_issue" do
+      valid_attrs = %{label: ["option1", "option2"], state: "some state", title: "some title", body: "some body", html_url: "some html_url"}
+
+      assert {:ok, %ProjectIssue{} = project_issue} = MaintainerProjects.create_project_issue(valid_attrs)
+      assert project_issue.label == ["option1", "option2"]
+      assert project_issue.state == "some state"
+      assert project_issue.title == "some title"
+      assert project_issue.body == "some body"
+      assert project_issue.html_url == "some html_url"
+    end
+
+    test "create_project_issue/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = MaintainerProjects.create_project_issue(@invalid_attrs)
+    end
+
+    test "update_project_issue/2 with valid data updates the project_issue" do
+      project_issue = project_issue_fixture()
+      update_attrs = %{label: ["option1"], state: "some updated state", title: "some updated title", body: "some updated body", html_url: "some updated html_url"}
+
+      assert {:ok, %ProjectIssue{} = project_issue} = MaintainerProjects.update_project_issue(project_issue, update_attrs)
+      assert project_issue.label == ["option1"]
+      assert project_issue.state == "some updated state"
+      assert project_issue.title == "some updated title"
+      assert project_issue.body == "some updated body"
+      assert project_issue.html_url == "some updated html_url"
+    end
+
+    test "update_project_issue/2 with invalid data returns error changeset" do
+      project_issue = project_issue_fixture()
+      assert {:error, %Ecto.Changeset{}} = MaintainerProjects.update_project_issue(project_issue, @invalid_attrs)
+      assert project_issue == MaintainerProjects.get_project_issue!(project_issue.id)
+    end
+
+    test "delete_project_issue/1 deletes the project_issue" do
+      project_issue = project_issue_fixture()
+      assert {:ok, %ProjectIssue{}} = MaintainerProjects.delete_project_issue(project_issue)
+      assert_raise Ecto.NoResultsError, fn -> MaintainerProjects.get_project_issue!(project_issue.id) end
+    end
+
+    test "change_project_issue/1 returns a project_issue changeset" do
+      project_issue = project_issue_fixture()
+      assert %Ecto.Changeset{} = MaintainerProjects.change_project_issue(project_issue)
+    end
+  end
 end

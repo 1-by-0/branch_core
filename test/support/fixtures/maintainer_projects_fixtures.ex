@@ -32,4 +32,22 @@ defmodule BranchCore.MaintainerProjectsFixtures do
 
     project
   end
+
+  @doc """
+  Generate a project_issue.
+  """
+  def project_issue_fixture(attrs \\ %{}) do
+    {:ok, project_issue} =
+      attrs
+      |> Enum.into(%{
+        body: "some body",
+        html_url: "some html_url",
+        label: ["option1", "option2"],
+        state: "some state",
+        title: "some title"
+      })
+      |> BranchCore.MaintainerProjects.create_project_issue()
+
+    project_issue
+  end
 end
