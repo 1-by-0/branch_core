@@ -22,6 +22,8 @@ defmodule BranchCore.MaintainerProjects.Project do
 
     belongs_to :user, BranchCore.Accounts.User
 
+    has_many :project_issues, BranchCore.MaintainerProjects.ProjectIssue
+
     many_to_many :skills, BranchCore.KnowledgeBase.Skill,
       join_through: BranchCore.ProjectProfile.ProjectSkill
 
